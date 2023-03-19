@@ -129,18 +129,18 @@ class App {
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
   _newWorkout(e) {
+    e.preventDefault();
     const validInputs = (...inputs) =>
       inputs.every(inp => Number.isFinite(inp));
     const positive = (...inputs) => inputs.every(inp => inp > 0);
-    e.preventDefault();
     //get data from form
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
+
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
 
-    console.log(type, distance, duration);
     //check if data is valid
 
     //If workout is running, createa running object
@@ -270,7 +270,7 @@ class App {
   }
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
-    console.log(data);
+    if (!data) return;
     this.#workout = data;
     data.forEach(work => {
       this._renderWorkout(work);
